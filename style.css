@@ -1,0 +1,12 @@
+.button-grid {
+    display: grid;
+    grid-template-columns: 80px 80px 80px 80px;
+    grid-template-rows: 80px 80px 80px 80px;
+}
+
+.screen {
+    width: 320px;
+    height: 100px;
+    background-color: rgba(77, 48, 145, 0.1);
+
+}
