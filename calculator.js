@@ -32,10 +32,22 @@ function updateUpperScreen() {
     let displayTextTop = displayUpperScreen.map( (e) => (e)).join("");
     document.querySelector(".screen-top").innerHTML = displayTextTop;
 }
+let numberEntered = false;
 let buttons = document.querySelectorAll(".button");
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
         displayUpperScreen.push(button.innerHTML);
         updateUpperScreen();
+        numberEntered = true;
+    });
+});
+let operators = document.querySelectorAll(".operator");
+operators.forEach((operator) => {
+    operator.addEventListener("click", () => {
+        if (numberEntered === true) {
+            displayUpperScreen.push(operator.innerHTML);
+            updateUpperScreen();
+            numberEntered = false;
+        }        
     });
 });
