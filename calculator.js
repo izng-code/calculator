@@ -14,10 +14,6 @@ function divide(a, b) {
     return a / b;
 }
 
-let numberOne;
-let numberTwo;
-let operator;
-
 function operate(numberOne,numberTwo,operator) {
     switch (operator) {
         case "+": return add(numberOne, numberTwo);
@@ -29,7 +25,7 @@ function operate(numberOne,numberTwo,operator) {
 
 let displayUpperScreen = [];
 function updateUpperScreen() {
-    let displayTextTop = displayUpperScreen.map((e) => (e)).join("");
+    displayTextTop = displayUpperScreen.map((e) => (e)).join("");
     document.querySelector(".screen-top").innerHTML = displayTextTop;
 }
 let numberEntered = false;
@@ -48,15 +44,26 @@ operators.forEach((operator) => {
             displayUpperScreen.push(operator.innerHTML);
             updateUpperScreen();
             numberEntered = false;
+        }
+        if (resultExists === true) {
+            displayUpperScreen.length = 0;
+            displayUpperScreen.push(allNumbers[0]);
+            displayUpperScreen.push(operator.innerHTML);
+            allNumbers.splice(0, allNumbers.length);
+            allOperators.splice(0, allOperators.length);
+            numberEntered = false;
+            resultExists = false;
+            updateUpperScreen();
         }        
     });
 });
 
 let allNumbers = [];
 let allOperators = [];
-let temp = "";
+let resultExists = false;
 document.querySelector(".equalbutton").addEventListener("click", () => {
     if (numberEntered === true) {
+        let temp = "";
         for (let i = 0; i < displayUpperScreen.length; i++) {
             if (displayUpperScreen[i] != "+" &&  displayUpperScreen[i] != "-" && displayUpperScreen[i] != "*" && displayUpperScreen[i] != "÷") {
                 temp += displayUpperScreen[i];
@@ -68,8 +75,6 @@ document.querySelector(".equalbutton").addEventListener("click", () => {
             }
         }
         allNumbers.push(parseInt(temp)); 
-        console.log(allNumbers)
-        console.log(allOperators)
         function createSumArray() {
             if (allOperators.includes("*")) {
                 let index = allOperators.indexOf("*");
@@ -89,19 +94,17 @@ document.querySelector(".equalbutton").addEventListener("click", () => {
             }
         }
         createSumArray();
-        console.log(allNumbers)
-        console.log(allOperators)
-    }
-    function computeSum() {
-        if (allNumbers.length > 1) {
-            allNumbers[0] = operate(allNumbers[0],allNumbers[allNumbers.length - 1],allOperators[allOperators.length - 1]);
-            allNumbers.pop();
-            allOperators.pop();
-            computeSum();
+        function computeSum() {
+            if (allNumbers.length > 1) {
+                allNumbers[0] = operate(allNumbers[0],allNumbers[allNumbers.length - 1],allOperators[allOperators.length - 1]);
+                allNumbers.pop();
+                allOperators.pop();
+                computeSum();
+            }
         }
+        computeSum();
+        document.querySelector(".screen-top").innerHTML += "=";
+        document.querySelector(".screen-bottom").innerHTML = allNumbers[0];
+        resultExists = true;    
     }
-    computeSum();
-    console.log(allNumbers);
-    document.querySelector(".screen-top").innerHTML += "=";
-    document.querySelector(".screen-bottom").innerHTML += allNumbers[0];
 })
