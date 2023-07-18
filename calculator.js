@@ -55,6 +55,7 @@ operators.forEach((operator) => {
             allOperators.splice(0, allOperators.length);
             numberEntered = false;
             resultExists = false;
+            document.querySelector(".screen-bottom").innerHTML = "";
             updateUpperScreen();
         }        
     });
@@ -118,4 +119,13 @@ document.querySelector(".equalbutton").addEventListener("click", () => {
         document.querySelector(".screen-bottom").innerHTML = allNumbers[0];
         resultExists = true;    
     }
+})
+document.querySelector(".clearbutton").addEventListener("click", () => {
+    allNumbers.length = 0;
+    allOperators.length = 0;
+    displayUpperScreen.length = 0;
+    document.querySelector(".screen-top").innerHTML = "";
+    document.querySelector(".screen-bottom").innerHTML = "";
+    resultExists = false;
+    numberEntered = false;
 })
