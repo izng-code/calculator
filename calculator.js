@@ -24,6 +24,7 @@ function operate(numberOne,numberTwo,operator) {
 }
 
 let displayUpperScreen = [];
+// evaluates the array and updates screen accordingly
 function updateUpperScreen() {
     displayTextTop = displayUpperScreen.map((e) => (e)).join("");
     document.querySelector(".screen-top").innerHTML = displayTextTop;
@@ -45,6 +46,7 @@ operators.forEach((operator) => {
             updateUpperScreen();
             numberEntered = false;
         }
+        // handles case for when a result exists by emptying arrays
         if (resultExists === true) {
             displayUpperScreen.length = 0;
             displayUpperScreen.push(allNumbers[0]);
@@ -63,7 +65,15 @@ let allOperators = [];
 let resultExists = false;
 document.querySelector(".equalbutton").addEventListener("click", () => {
     if (numberEntered === true) {
+        if ((displayUpperScreen.map((e) => (e)).join("")).includes("÷0")) {
+            document.querySelector(".screen-bottom").innerHTML = "When we try to divide by zero, things stop making sense"
+            displayUpperScreen.length = 0;
+            updateUpperScreen();
+            numberEntered = false;
+            return;
+        }
         let temp = "";
+        // evaluates the upperScreen Array and sorts numbers and operators in separate Arrays
         for (let i = 0; i < displayUpperScreen.length; i++) {
             if (displayUpperScreen[i] != "+" &&  displayUpperScreen[i] != "-" && displayUpperScreen[i] != "*" && displayUpperScreen[i] != "÷") {
                 temp += displayUpperScreen[i];
@@ -75,6 +85,7 @@ document.querySelector(".equalbutton").addEventListener("click", () => {
             }
         }
         allNumbers.push(parseInt(temp)); 
+        // handles order of operation by operating them first and only leaving + and - operators
         function createSumArray() {
             if (allOperators.includes("*")) {
                 let index = allOperators.indexOf("*");
